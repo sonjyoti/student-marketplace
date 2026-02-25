@@ -5,6 +5,8 @@ import com.pm.studentmarketplace.listing.model.Listing;
 import com.pm.studentmarketplace.listing.repository.ListingRepository;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class ListingService {
     private final ListingRepository listingRepository;
@@ -29,5 +31,10 @@ public class ListingService {
                 );
 
         return listingRepository.save(listing);
+    }
+
+    // read listing by given seller
+    public List<Listing> getListingsBySeller(User seller) {
+        return listingRepository.findBySeller(seller);
     }
 }

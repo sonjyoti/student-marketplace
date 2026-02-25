@@ -1,11 +1,29 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <title>Seller Dashboard</title>
 </head>
 <body>
     <h1>Seller Dashboard</h1>
-    <p>You're logged in!</p>
+    <a href="/seller/listings/new">Create new Listing</a>
+
+    <hr>
+
+    <h2>Your Listings</h2>
+
+    <table border="1">
+        <tr>
+            <th>Title</th>
+            <th>Price</th>
+            <th>Status</th>
+        </tr>
+
+        <tr th:each="listing : ${listings}">
+            <td th:text="${listing.title}"></td>
+            <td th:text="${listing.price}"></td>
+            <td th:text="${listing.status}"></td>
+        </tr>
+    </table>
 </body>
 </html>
