@@ -39,16 +39,17 @@ public class Listing {
     @JoinColumn(name = "user_id")
     private User seller;
 
-    protected Listing() {}
+    protected Listing() {
+    }
 
-    public Listing(String title, String description, String category, Double price, String contactInfo, String imagePaths, String status, User seller) {
+    public Listing(String title, String description, String category, Double price, String contactInfo, User seller) {
         this.title = title;
         this.description = description;
         this.category = category;
         this.price = price;
         this.contactInfo = contactInfo;
-        this.imagePaths = imagePaths;
-        this.status = status;
+        this.imagePaths = "C:/Users/sonjy/OneDrive/Documents/Github/studentmarketplace/images/";
+        this.status = "ACTIVE";
         this.createdAt = LocalDateTime.now();
         this.seller = seller;
     }

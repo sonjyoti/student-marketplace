@@ -25,7 +25,7 @@ public class SecurityConfig {
                         .anyRequest().authenticated()
                 )
                 .csrf(csrf->csrf
-                        .ignoringRequestMatchers("/h2-console/**")
+                        .ignoringRequestMatchers("/h2-console/**", "/seller/**", "/admin/**")
                 )
                 .headers(headers->headers
                         .frameOptions(HeadersConfigurer.FrameOptionsConfig::sameOrigin)
