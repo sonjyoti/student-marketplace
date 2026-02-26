@@ -9,6 +9,12 @@ import org.springframework.security.web.SecurityFilterChain;
 @Configuration
 public class SecurityConfig {
 
+    private final CustomLoginSuccessHandler successHandler;
+
+    public SecurityConfig(CustomLoginSuccessHandler successHandler) {
+        this.successHandler = successHandler;
+    }
+
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
@@ -31,7 +37,7 @@ public class SecurityConfig {
                         .frameOptions(HeadersConfigurer.FrameOptionsConfig::sameOrigin)
                 )
                 .formLogin(form->form
-                        .defaultSuccessUrl("/seller/dashboard", true)
+                        .successHandler(successHandler)
                         .permitAll()
                 );
         return http.build();

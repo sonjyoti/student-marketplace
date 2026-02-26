@@ -1,11 +1,46 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <title>Admin Dashboard</title>
 </head>
 <body>
     <h1>Admin Dashboard</h1>
-    <p>Admin access only!</p>
+
+    <h2>System Overview</h2>
+
+    <p>Total Users: <b th:text="${totalUsers}"></b></p>
+    <p>Total Roles: <b th:text="${totalListings}"></b></p>
+
+    <hr>
+
+    <h2>All Users</h2>
+    <table border = "1">
+        <tr>
+            <th>Email</th>
+            <th>Role</th>
+        </tr>
+
+        <tr th:each="user : ${users}">
+            <td th:text="${user.email}"></td>
+            <td th:text="${user.role}"></td>
+        </tr>
+    </table>
+
+    <hr>
+
+    <h2>All Listings</h2>
+    <table border = "1">
+        <tr>
+            <th>Title</th>
+            <th>Seller Contact</th>
+            <th>Status</th>
+        </tr>
+        <tr th:each="list : ${listings}">
+            <td th:text="${list.title}"></td>
+            <td th:text="${list.seller.email}"></td>
+            <td th:text="${list.status}"></td>
+        </tr>
+    </table>
 </body>
 </html>
