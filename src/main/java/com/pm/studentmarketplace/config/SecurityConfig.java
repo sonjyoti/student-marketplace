@@ -24,7 +24,8 @@ public class SecurityConfig {
                                 "/h2-console/**",
                                 "/css/**",
                                 "/js/**",
-                                "/images/**"
+                                "/images/**",
+                                "/marketplace"
                         ).permitAll()
                         .requestMatchers("/seller/**").hasRole("SELLER")
                         .requestMatchers("/admin/**").hasRole("ADMIN")

@@ -51,4 +51,8 @@ public class ListingService {
     public List<Listing> getListingsBySeller(User seller) {
         return listingRepository.findBySeller(seller);
     }
+
+    public List<Listing> getApprovedListings() {
+        return listingRepository.findByStatus("APPROVED");
+    }
 }

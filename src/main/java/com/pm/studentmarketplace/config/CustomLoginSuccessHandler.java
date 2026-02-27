@@ -23,8 +23,8 @@ public class CustomLoginSuccessHandler implements AuthenticationSuccessHandler {
                 response.sendRedirect("/admin/dashboard");
                 return;
             }
-            if (grantedAuthority.getAuthority().equals("ROLE_USER")) {
-                response.sendRedirect("/user/dashboard");
+            if (grantedAuthority.getAuthority().equals("ROLE_SELLER")) {
+                response.sendRedirect("/seller/dashboard");
                 return;
             }
         }
