@@ -6,6 +6,8 @@ import com.pm.studentmarketplace.listing.model.Listing;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import java.util.List;
@@ -33,5 +35,17 @@ public class AdminController {
         model.addAttribute("listings", listings);
 
         return  "admin/dashboard";
+    }
+
+    @PostMapping("/listing/{id}/approve")
+    public String approveListing(@PathVariable Long id){
+        adminService.approveListing(id);
+        return "redirect:/admin/dashboard";
+    }
+
+    @PostMapping("/listing/{id}/block")
+    public String blockListing(@PathVariable Long id){
+        adminService.blockListing(id);
+        return "redirect:/admin/dashboard";
     }
 }

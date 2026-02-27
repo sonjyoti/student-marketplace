@@ -26,9 +26,26 @@ public class AdminService {
         return listingRepository.count();
     }
 
+    public void approveListing(Long listingId){
+        listingRepository.findById(listingId)
+                .ifPresent(listing -> {
+                    listing.setStatus("APPROVED");
+                    listingRepository.save(listing);
+                });
+    }
+
+    public void blockListing(Long listingId){
+        listingRepository.findById(listingId)
+                .ifPresent(listing -> {
+                    listing.setStatus("BLOCKED");
+                    listingRepository.save(listing);
+                });
+    }
+
     public List<User> getAllUsers() {
         return userRepository.findAll();
     }
+
     public List<Listing> getAllListings() {
         return listingRepository.findAll();
     }

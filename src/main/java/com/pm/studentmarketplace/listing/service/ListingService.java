@@ -33,6 +33,20 @@ public class ListingService {
         return listingRepository.save(listing);
     }
 
+    public void approveListing(Long listingId) {
+        Listing listing = listingRepository.findById(listingId)
+                .orElseThrow(() -> new RuntimeException("listing not found!!"));
+        listing.setStatus("APPROVED");
+        listingRepository.save(listing);
+    }
+
+    public void blockListing(Long listingId) {
+        Listing listing = listingRepository.findById(listingId)
+                .orElseThrow(() -> new RuntimeException("listing not found!!"));
+        listing.setStatus("BLOCKED");
+        listingRepository.save(listing);
+    }
+
     // read listing by given seller
     public List<Listing> getListingsBySeller(User seller) {
         return listingRepository.findBySeller(seller);

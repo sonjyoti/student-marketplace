@@ -10,7 +10,7 @@
     <h2>System Overview</h2>
 
     <p>Total Users: <b th:text="${totalUsers}"></b></p>
-    <p>Total Roles: <b th:text="${totalListings}"></b></p>
+    <p>Total Listings: <b th:text="${totalListings}"></b></p>
 
     <hr>
 
@@ -35,11 +35,23 @@
             <th>Title</th>
             <th>Seller Contact</th>
             <th>Status</th>
+            <th>Action</th>
         </tr>
         <tr th:each="list : ${listings}">
             <td th:text="${list.title}"></td>
             <td th:text="${list.seller.email}"></td>
             <td th:text="${list.status}"></td>
+            <td>
+                <form th:if="${list.status != 'APPROVED'}"
+                      th:action="@{'/admin/listing/' + ${list.id} + '/approve'}" method="post">
+                    <button type="submit">Approve</button>
+                </form>
+
+                <form th:if="${list.status != 'BLOCKED'}"
+                      th:action="@{'/admin/listing/' + ${list.id} + '/block'}" method="post">
+                    <button type="submit">Block</button>
+                </form>
+            </td>
         </tr>
     </table>
 </body>

@@ -98,6 +98,10 @@ public class Listing {
         this.imagePaths = imagePaths;
     }
 
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
     public void markAsSold() {
         this.status = "SOLD";
     }
