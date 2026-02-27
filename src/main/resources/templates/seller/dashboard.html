@@ -17,12 +17,20 @@
             <th>Title</th>
             <th>Price</th>
             <th>Status</th>
+            <th>Action</th>
         </tr>
 
         <tr th:each="listing : ${listings}">
             <td th:text="${listing.title}"></td>
             <td th:text="${listing.price}"></td>
             <td th:text="${listing.status}"></td>
+            <td>
+                <a th:href="@{'/seller/listings/' + ${listing.id} + '/edit'}">Edit</a>
+
+                <form th:action="@{'/seller/listings/' + ${listing.id} + '/delete' }" style="display: inline" method="post">
+                    <button type="submit">Delete</button>
+                </form>
+            </td>
         </tr>
     </table>
 </body>
