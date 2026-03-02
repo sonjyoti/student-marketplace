@@ -7,7 +7,7 @@
 <body>
   <h2>Edit Listing</h2>
 
-  <form th:action="@{'/seller/listings/' + ${listing.id} + '/edit'}" method="post">
+  <form th:action="@{'/seller/listings/' + ${listing.id} + '/edit'}" method="post" enctype="multipart/form-data">
     <label>
       <input type="text" name="title" th:value="${listing.title}" placeholder="Title" required>
     </label>
@@ -22,6 +22,13 @@
 
     <label>
       <input type="text" name="contactInfo" th:value="${listing.contactInfo}" placeholder="Contact Info">
+    </label>
+
+    <label>
+      <img th:if="${listing.imagePath != null}"
+           th:src="@{/images/{img}(img=${listing.imagePath})}"
+           style="width:150px;height:150px;object-fit:cover" alt="image">
+      <input type="file" name="image" accept="image/" placeholder="Image">
     </label>
 
     <button type="submit">Update</button>

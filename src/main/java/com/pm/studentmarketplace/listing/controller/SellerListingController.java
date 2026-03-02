@@ -3,22 +3,28 @@ package com.pm.studentmarketplace.listing.controller;
 import com.pm.studentmarketplace.auth.model.User;
 import com.pm.studentmarketplace.auth.repository.UserRepository;
 import com.pm.studentmarketplace.listing.model.Listing;
+import com.pm.studentmarketplace.listing.service.ImageStorageService;
 import com.pm.studentmarketplace.listing.service.ListingService;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 @Controller
 @RequestMapping("seller/listings")
 public class SellerListingController {
     private final ListingService listingService;
     private final UserRepository userRepository;
+    private final ImageStorageService imageStorageService;
 
-    public SellerListingController(ListingService listingService, UserRepository userRepository) {
+    public SellerListingController(ListingService listingService, UserRepository userRepository, ImageStorageService imageStorageService) {
         this.listingService = listingService;
         this.userRepository = userRepository;
+        this.imageStorageService = imageStorageService;
     }
+
+    // ----CREATE LISTING----
 
     @GetMapping("/new")
     public String showCreateForm(){
@@ -31,12 +37,24 @@ public class SellerListingController {
             @RequestParam String description,
             @RequestParam Double price,
             @RequestParam String contactInfo,
+            @RequestParam MultipartFile image,
             Authentication authentication
     ){
         String email = authentication.getName();
         User seller = userRepository.findByEmail(email).orElseThrow();
 
-        listingService.createListing(title, description, price, contactInfo, seller);
+        String imagePath = imageStorageService.store(image);
+
+        Listing listing = new Listing();
+        listing.setTitle(title);
+        listing.setDescription(description);
+        listing.setPrice(price);
+        listing.setContactInfo(contactInfo);
+        listing.setSeller(seller);
+        listing.setStatus("ACTIVE");
+        listing.setImagePath(imagePath);
+
+        listingService.save(listing);
 
         return "redirect:/seller/dashboard";
     }
@@ -69,13 +87,14 @@ public class SellerListingController {
             @RequestParam String description,
             @RequestParam(required = false) Double price,
             @RequestParam String contactInfo,
+            @RequestParam(required = false) MultipartFile image,
             Authentication authentication
     ){
         String email = authentication.getName();
         User seller = userRepository.findByEmail(email).orElseThrow();
 
         listingService.updateListing(
-                id, title, description, price, contactInfo, seller
+                id, title, description, price, contactInfo, image, seller
         );
 
         return "redirect:/seller/dashboard";

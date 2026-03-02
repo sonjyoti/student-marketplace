@@ -6,7 +6,7 @@
 </head>
 <body>
   <h2>Create Listing</h2>
-  <form method="POST" action="/seller/listings/new">
+  <form method="POST" action="/seller/listings/new" enctype="multipart/form-data">
     <div>
       <label>
         <input type="text" name="title" placeholder="Title" required>
@@ -25,6 +25,11 @@
     <div>
       <label>
         <input type="text" name="contactInfo" placeholder="Contact Info" required>
+      </label>
+    </div>
+    <div>
+      <label>
+        <input type="file" name="image" placeholder="Image" accept="image/" required>
       </label>
     </div>
     <div>

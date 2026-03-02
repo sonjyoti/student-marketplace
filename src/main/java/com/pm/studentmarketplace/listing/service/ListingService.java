@@ -5,6 +5,7 @@ import com.pm.studentmarketplace.listing.model.Listing;
 import com.pm.studentmarketplace.listing.repository.ListingRepository;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
@@ -12,27 +13,15 @@ import java.util.List;
 @Service
 public class ListingService {
     private final ListingRepository listingRepository;
+    private final ImageStorageService imageStorageService;
 
-    public ListingService(ListingRepository listingRepository) {
+    public ListingService(ListingRepository listingRepository, ImageStorageService imageStorageService) {
         this.listingRepository = listingRepository;
+        this.imageStorageService = imageStorageService;
     }
 
-    public void createListing(
-            String title,
-            String description,
-            Double price,
-            String contactInfo,
-            User seller) {
-        Listing listing = new Listing(
-                title,
-                description,
-                null,
-                price,
-                contactInfo,
-                seller
-                );
-
-//        return listingRepository.save(listing);
+    public void save(Listing listing) {
+        listingRepository.save(listing);
     }
 
     public void approveListing(Long listingId) {
@@ -59,6 +48,7 @@ public class ListingService {
                               String description,
                               Double price,
                               String contactInfo,
+                              MultipartFile image,
                               User seller
     ) {
         Listing listing = listingRepository.findById(listingId)
@@ -79,6 +69,11 @@ public class ListingService {
         listing.setDescription(description);
         listing.setPrice(price);
         listing.setContactInfo(contactInfo);
+
+        if (image != null && !image.isEmpty()) {
+            String newImagePath = imageStorageService.store(image);
+            listing.setImagePath(newImagePath);
+        }
 
         // reset status so admin can re-approve
         listing.setStatus("ACTIVE");

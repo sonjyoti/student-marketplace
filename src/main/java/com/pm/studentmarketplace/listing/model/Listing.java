@@ -11,7 +11,7 @@ import java.time.LocalDateTime;
 public class Listing {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    private Long id;
 
     @Column(nullable = false)
     private String title;
@@ -26,20 +26,22 @@ public class Listing {
     @Column(nullable = false)
     private String contactInfo;
 
-    @Column(nullable = false)
-    private String imagePaths;
+    private String imagePath;
 
     @Column(nullable = false)
     private String status;
 
-    @Column(nullable = false)
+    @Column(nullable = false, updatable = false)
     private LocalDateTime createdAt;
+
+    @Column(nullable = false)
+    private LocalDateTime updatedAt;
 
     @ManyToOne(optional = false) // indicates there can be many listings per seller
     @JoinColumn(name = "user_id")
     private User seller;
 
-    protected Listing() {
+    public Listing() {
     }
 
     public Listing(String title, String description, String category, Double price, String contactInfo, User seller) {
@@ -48,13 +50,11 @@ public class Listing {
         this.category = category;
         this.price = price;
         this.contactInfo = contactInfo;
-        this.imagePaths = "C:/Users/sonjy/OneDrive/Documents/Github/studentmarketplace/images/";
         this.status = "ACTIVE";
-        this.createdAt = LocalDateTime.now();
         this.seller = seller;
     }
 
-    public int getId() {
+    public Long getId() {
         return id;
     }
 
@@ -78,8 +78,8 @@ public class Listing {
         return contactInfo;
     }
 
-    public String getImagePaths() {
-        return imagePaths;
+    public String getImagePath() {
+        return imagePath;
     }
 
     public String getStatus() {
@@ -94,8 +94,8 @@ public class Listing {
         return seller;
     }
 
-    public void setImagePaths(String imagePaths) {
-        this.imagePaths = imagePaths;
+    public void setImagePath(String imagePath) {
+        this.imagePath = imagePath;
     }
 
     public void setStatus(String status) {
@@ -118,7 +118,23 @@ public class Listing {
         this.contactInfo = contactInfo;
     }
 
+    public void setSeller(User seller) {
+        this.seller = seller;
+    }
+
     public void markAsSold() {
         this.status = "SOLD";
+    }
+
+    @PrePersist
+    protected void onCreate() {
+        LocalDateTime now = LocalDateTime.now();
+        this.createdAt = now;
+        this.updatedAt = now;
+    }
+
+    @PreUpdate
+    protected void onUpdate() {
+        this.updatedAt = LocalDateTime.now();
     }
 }
