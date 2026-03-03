@@ -71,6 +71,10 @@ public class ListingService {
         listing.setContactInfo(contactInfo);
 
         if (image != null && !image.isEmpty()) {
+            //delete old image
+            imageStorageService.delete(listing.getImagePath());
+
+            //add new image
             String newImagePath = imageStorageService.store(image);
             listing.setImagePath(newImagePath);
         }

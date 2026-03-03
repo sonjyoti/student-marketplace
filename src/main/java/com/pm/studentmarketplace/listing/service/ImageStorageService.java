@@ -90,4 +90,18 @@ public class ImageStorageService {
             writer.dispose();
         }
     }
+
+    public void delete(String imagePath) {
+        if (imagePath == null || imagePath.isBlank()) {
+            return;
+        }
+
+        try{
+            Path filePath = uploadRoot.resolve(imagePath);
+            Files.deleteIfExists(filePath);
+        }
+        catch (IOException e){
+            System.err.println("Failed to delete image: " + imagePath);
+        }
+    }
 }
