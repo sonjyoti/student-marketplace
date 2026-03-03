@@ -15,12 +15,16 @@ target/
 
 ### Database ####
 .db
+application-dev.properties
 
 ### IntelliJ IDEA ###
 .idea
 *.iws
 *.iml
 *.ipr
+*.log
+uploads/
+/.idea
 
 ### NetBeans ###
 /nbproject/private/

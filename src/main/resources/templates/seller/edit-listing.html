@@ -24,11 +24,14 @@
       <input type="text" name="contactInfo" th:value="${listing.contactInfo}" placeholder="Contact Info">
     </label>
 
+    <div th:if="${!#lists.isEmpty(listing.images)}">
+      <div th:each="image : ${listing.images}">
+        <img th:src="@{/images/{file}(file=${image.imagePath})}" alt="Listing Image" style="width: 150px; height: 150px;">
+      </div>
+    </div>
+
     <label>
-      <img th:if="${listing.imagePath != null}"
-           th:src="@{/images/{img}(img=${listing.imagePath})}"
-           style="width:150px;height:150px;object-fit:cover" alt="image">
-      <input type="file" name="image" accept="image/" placeholder="Image">
+      <input type="file" name="images" multiple accept="image/" placeholder="Image">
     </label>
 
     <button type="submit">Update</button>

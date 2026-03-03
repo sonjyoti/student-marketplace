@@ -3,6 +3,7 @@ package com.pm.studentmarketplace.listing.controller;
 import com.pm.studentmarketplace.auth.model.User;
 import com.pm.studentmarketplace.auth.repository.UserRepository;
 import com.pm.studentmarketplace.listing.model.Listing;
+import com.pm.studentmarketplace.listing.model.ListingImage;
 import com.pm.studentmarketplace.listing.service.ImageStorageService;
 import com.pm.studentmarketplace.listing.service.ListingService;
 import org.springframework.security.core.Authentication;
@@ -37,13 +38,11 @@ public class SellerListingController {
             @RequestParam String description,
             @RequestParam Double price,
             @RequestParam String contactInfo,
-            @RequestParam MultipartFile image,
+            @RequestParam MultipartFile[] images,
             Authentication authentication
     ){
         String email = authentication.getName();
         User seller = userRepository.findByEmail(email).orElseThrow();
-
-        String imagePath = imageStorageService.store(image);
 
         Listing listing = new Listing();
         listing.setTitle(title);
@@ -52,7 +51,15 @@ public class SellerListingController {
         listing.setContactInfo(contactInfo);
         listing.setSeller(seller);
         listing.setStatus("ACTIVE");
-        listing.setImagePath(imagePath);
+
+        if (images != null){
+            for (MultipartFile file : images){
+                if (!file.isEmpty()){
+                    String path = imageStorageService.store(file);
+                    listing.addImage(new ListingImage(path, listing));
+                }
+            }
+        }
 
         listingService.save(listing);
 
@@ -87,14 +94,14 @@ public class SellerListingController {
             @RequestParam String description,
             @RequestParam(required = false) Double price,
             @RequestParam String contactInfo,
-            @RequestParam(required = false) MultipartFile image,
+            @RequestParam(required = false, value = "images") MultipartFile[] images,
             Authentication authentication
     ){
         String email = authentication.getName();
         User seller = userRepository.findByEmail(email).orElseThrow();
 
         listingService.updateListing(
-                id, title, description, price, contactInfo, image, seller
+                id, title, description, price, contactInfo, images, seller
         );
 
         return "redirect:/seller/dashboard";

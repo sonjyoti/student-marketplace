@@ -2,6 +2,7 @@ package com.pm.studentmarketplace.listing.service;
 
 import com.pm.studentmarketplace.auth.model.User;
 import com.pm.studentmarketplace.listing.model.Listing;
+import com.pm.studentmarketplace.listing.model.ListingImage;
 import com.pm.studentmarketplace.listing.repository.ListingRepository;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
@@ -48,7 +49,7 @@ public class ListingService {
                               String description,
                               Double price,
                               String contactInfo,
-                              MultipartFile image,
+                              MultipartFile[] images,
                               User seller
     ) {
         Listing listing = listingRepository.findById(listingId)
@@ -70,14 +71,37 @@ public class ListingService {
         listing.setPrice(price);
         listing.setContactInfo(contactInfo);
 
-        if (image != null && !image.isEmpty()) {
-            //delete old image
-            imageStorageService.delete(listing.getImagePath());
+        if (images != null && images.length > 0) {
+            int validImages = 0;
 
-            //add new image
-            String newImagePath = imageStorageService.store(image);
-            listing.setImagePath(newImagePath);
+            for (MultipartFile file : images) {
+                if (file != null && !file.isEmpty()) {
+                    validImages++;
+                }
+            }
+
+            if (images.length > validImages) {
+                throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Maximum 3 images allowed");
+            }
+
+            // delete old images
+            for (ListingImage oldImage : listing.getImages()) {
+                imageStorageService.delete(oldImage.getImagePath());
+            }
+
+            // remove old image records (orphan removal is handled by db)
+            listing.clearImages();
+
+            //stores new images
+            for (MultipartFile file : images) {
+                if (!file.isEmpty()) {
+                    String path = imageStorageService.store(file);
+                    listing.addImage(new ListingImage(path, listing));
+                }
+            }
         }
+
+        System.out.println("Images received: " + (images == null ? "null" : images.length));
 
         // reset status so admin can re-approve
         listing.setStatus("ACTIVE");

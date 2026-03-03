@@ -5,6 +5,8 @@ import com.pm.studentmarketplace.auth.model.User;
 import jakarta.persistence.*;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name = "listings")
@@ -26,7 +28,12 @@ public class Listing {
     @Column(nullable = false)
     private String contactInfo;
 
-    private String imagePath;
+    @OneToMany(
+            mappedBy = "listing",
+            cascade = CascadeType.ALL,
+            orphanRemoval = true
+    )
+    private List<ListingImage> images = new ArrayList<>();
 
     @Column(nullable = false)
     private String status;
@@ -78,10 +85,6 @@ public class Listing {
         return contactInfo;
     }
 
-    public String getImagePath() {
-        return imagePath;
-    }
-
     public String getStatus() {
         return status;
     }
@@ -92,10 +95,6 @@ public class Listing {
 
     public User getSeller() {
         return seller;
-    }
-
-    public void setImagePath(String imagePath) {
-        this.imagePath = imagePath;
     }
 
     public void setStatus(String status) {
@@ -136,5 +135,17 @@ public class Listing {
     @PreUpdate
     protected void onUpdate() {
         this.updatedAt = LocalDateTime.now();
+    }
+
+    public void addImage(ListingImage image) {
+        images.add(image);
+    }
+
+    public void clearImages() {
+        images.clear();
+    }
+
+    public List<ListingImage> getImages() {
+        return images;
     }
 }
