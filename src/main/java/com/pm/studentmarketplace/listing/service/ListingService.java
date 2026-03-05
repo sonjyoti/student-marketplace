@@ -4,6 +4,8 @@ import com.pm.studentmarketplace.auth.model.User;
 import com.pm.studentmarketplace.listing.model.Listing;
 import com.pm.studentmarketplace.listing.model.ListingImage;
 import com.pm.studentmarketplace.listing.repository.ListingRepository;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -119,6 +121,14 @@ public class ListingService {
         }
 
         listingRepository.delete(listing);
+    }
+
+    public Page<Listing> searchMarketplace(String keyword, Pageable pageable) {
+        if (keyword == null || keyword.trim().isEmpty()) {
+            return listingRepository.findByStatus("APPROVED", pageable);
+        }
+
+        return listingRepository.findByStatusAndTitleContainingIgnoreCase("APPROVED", keyword, pageable);
     }
 
     // read listing by given seller

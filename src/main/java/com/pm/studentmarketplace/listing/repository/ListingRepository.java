@@ -2,6 +2,8 @@ package com.pm.studentmarketplace.listing.repository;
 
 import com.pm.studentmarketplace.auth.model.User;
 import com.pm.studentmarketplace.listing.model.Listing;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;
@@ -9,4 +11,8 @@ import java.util.List;
 public interface ListingRepository extends JpaRepository<Listing, Long> {
     List<Listing> findBySeller(User user);
     List<Listing> findByStatus(String status);
+    Page<Listing> findByStatus(String status, Pageable pageable);
+    Page<Listing> findByStatusAndTitleContainingIgnoreCase(
+            String status, String keyword, Pageable pageable
+    );
 }
