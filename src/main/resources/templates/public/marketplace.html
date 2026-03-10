@@ -7,10 +7,29 @@
 <body>
   <h1>Marketplace</h1>
 
-  <form method="get" th:action="/marketplace">
+  <form method="get" th:action="@{/marketplace}">
     <label>
       <input type="text" name="keyword" placeholder="Search product" th:value="${keyword}">
     </label>
+
+    <label>
+      <select name="category">
+        <option value="">All Categories</option>
+        <option value="electronics" th:selected="${category=='electronics'}">Electronics</option>
+        <option value="books" th:selected="${category=='books'}">Books</option>
+        <option value="furniture" th:selected="${category=='furniture'}">Furniture</option>
+        <option value="vehicles" th:selected="${category=='vehicles'}">Vehicles</option>
+      </select>
+    </label>
+
+    <label>
+      <select name="sort">
+        <option value="newest" th:selected="${sort=='newest'}">Newest</option>
+        <option value="price_asc" th:selected="${sort=='price_asc'}">Price Low -> High</option>
+        <option value="price_desc" th:selected="${sort=='price_desc'}">Price High -> Low</option>
+      </select>
+    </label>
+    
     <button type="submit">Search</button>
   </form>
 
@@ -37,7 +56,7 @@
     <span th:text="'Page' + ${currentPage + 1} + ' of ' + ${totalPages}"></span>
 
     <a th:if="${currentPage < totalPages - 1}"
-       th:href="@{/marketplace(page=${currentPage + 1},keyword=${keyword})}">Next</a>}"
+       th:href="@{/marketplace(page=${currentPage + 1},keyword=${keyword})}">Next</a>
   </div>
 
 </body>

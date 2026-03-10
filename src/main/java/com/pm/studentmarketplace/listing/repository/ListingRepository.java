@@ -15,4 +15,10 @@ public interface ListingRepository extends JpaRepository<Listing, Long> {
     Page<Listing> findByStatusAndTitleContainingIgnoreCase(
             String status, String keyword, Pageable pageable
     );
+    Page<Listing> findByStatusAndCategory(
+            String status, String category, Pageable pageable
+    );
+    Page<Listing> findByStatusAndCategoryAndTitleContainingIgnoreCase(
+            String status, String category, String keyword, Pageable pageable
+    );
 }

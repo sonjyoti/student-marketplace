@@ -1,8 +1,8 @@
 INSERT INTO users (id, name, created_at, email, password, phone_number, role) VALUES
-(1, 'Rahul Doley', NOW(), 'rahul@local','$2a$10$VEFudSKOCud.dQuzagFEAeMPqvhHNaFhphz3YOLd/QF0oXbRLNcEy', '9876543210', 'ROLE_SELLER'),
-(2, 'Anjali Das', NOW(), 'anjali@local','$2a$10$VEFudSKOCud.dQuzagFEAeMPqvhHNaFhphz3YOLd/QF0oXbRLNcEy','9876543210',  'ROLE_SELLER'),
-(3, 'Arjun Reddy', NOW(), 'arjun@local','$2a$10$VEFudSKOCud.dQuzagFEAeMPqvhHNaFhphz3YOLd/QF0oXbRLNcEy','9876543210', 'ROLE_SELLER'),
-(4, 'Admin', NOW(), 'admin@local','$2a$10$VEFudSKOCud.dQuzagFEAeMPqvhHNaFhphz3YOLd/QF0oXbRLNcEy','9876543210', 'ROLE_ADMIN');
+(1, 'Rahul Doley', NOW(), 'rahul@local','$2a$10$VEFudSKOCud.dQuzagFEAeMPqvhHNaFhphz3YOLd/QF0oXbRLNcEy', '9876543210', 'SELLER'),
+(2, 'Anjali Das', NOW(), 'anjali@local','$2a$10$VEFudSKOCud.dQuzagFEAeMPqvhHNaFhphz3YOLd/QF0oXbRLNcEy','9876543210',  'SELLER'),
+(3, 'Arjun Reddy', NOW(), 'arjun@local','$2a$10$VEFudSKOCud.dQuzagFEAeMPqvhHNaFhphz3YOLd/QF0oXbRLNcEy','9876543210', 'SELLER'),
+(4, 'Admin', NOW(), 'admin@local','$2a$10$VEFudSKOCud.dQuzagFEAeMPqvhHNaFhphz3YOLd/QF0oXbRLNcEy','9876543210', 'ADMIN');
 
 INSERT INTO listings
 (title, description, category, price, contact_info, status, created_at, updated_at, user_id)

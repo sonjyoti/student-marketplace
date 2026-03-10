@@ -123,12 +123,37 @@ public class ListingService {
         listingRepository.delete(listing);
     }
 
-    public Page<Listing> searchMarketplace(String keyword, Pageable pageable) {
-        if (keyword == null || keyword.trim().isEmpty()) {
-            return listingRepository.findByStatus("APPROVED", pageable);
-        }
+    public Page<Listing> searchMarketplace(String keyword, String category, Pageable pageable) {
 
-        return listingRepository.findByStatusAndTitleContainingIgnoreCase("APPROVED", keyword, pageable);
+        boolean hasKeyword = keyword != null && !keyword.isBlank();
+        boolean hasCategory = category != null && !category.isBlank();
+
+        if (hasKeyword && hasCategory) {
+            return listingRepository
+                    .findByStatusAndCategoryAndTitleContainingIgnoreCase(
+                            "APPROVED",
+                            category,
+                            keyword,
+                            pageable
+                    );
+        }
+        if (hasCategory) {
+            return listingRepository
+                    .findByStatusAndCategory(
+                            "APPROVED",
+                            category,
+                            pageable
+                    );
+        }
+        if (hasKeyword) {
+            return listingRepository
+                    .findByStatusAndTitleContainingIgnoreCase(
+                            "APPROVED",
+                            keyword,
+                            pageable
+                    );
+        }
+        return listingRepository.findByStatus("APPROVED", pageable);
     }
 
     // read listing by given seller
