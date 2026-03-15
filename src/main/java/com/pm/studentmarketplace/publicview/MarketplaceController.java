@@ -44,6 +44,6 @@ public class MarketplaceController {
         model.addAttribute("category", category);
         model.addAttribute("sort", sort);
 
-        return "public/marketplace";
+        return "/public/marketplace2";
     }
 }

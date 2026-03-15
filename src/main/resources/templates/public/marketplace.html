@@ -29,25 +29,26 @@
         <option value="price_desc" th:selected="${sort=='price_desc'}">Price High -> Low</option>
       </select>
     </label>
-    
+
     <button type="submit">Search</button>
   </form>
 
-  <table border="1">
-    <tr>
-      <th>Title</th>
-      <th>Description</th>
-      <th>Price</th>
-      <th>Contact</th>
-    </tr>
+  <div class="marketplace-grid">
+    <a th:each="listing : ${listings}"
+       th:href="@{'/listings/' + ${listing.id}}"
+       class="listing-card">
 
-    <tr th:each="listing : ${listings}">
-      <td th:text="${listing.title}"></td>
-      <td th:text="${listing.description}"></td>
-      <td th:text="${listing.price}"></td>
-      <td th:text="${listing.contactInfo}"></td>
-    </tr>
-  </table>
+      <img th:if="${listing.images != null and !listing.images.isEmpty()}"
+           th:src="@{'/images/' + ${listing.images[0].imagePath}}" alt="image">
+
+      <img th:if="${listing.images == null or listing.images.isEmpty()}"
+           src="/images/no-image.png" alt="image">
+
+      <h3 th:text="${listing.title}"></h3>
+
+      <p class="price" th:text="${listing.price}"></p>
+    </a>
+  </div>
 
   <div>
     <a th:if="${currentPage > 0}"

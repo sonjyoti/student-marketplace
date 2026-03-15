@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Student Marketplace</title>
+
+    <link rel="icon" th:href="@{/images/favicon.png}">
+
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,700,800" rel="stylesheet">
+
+    <link href="https://use.fontawesome.com/releases/v5.0.7/css/all.css" rel="stylesheet">
+
+    <link rel="stylesheet" th:href="@{/css/style1.css}">
+    <link rel="stylesheet" th:href="@{/css/responsive.css}">
+  </head>
+  <body>
+  <div id="main">
+    <!-- HEADER -->
+    <header>
+      <div class="top">
+        <div class="container">
+          <div class="left">
+            <div class="mainLogo">
+              <a href="/marketplace">
+                <img th:src="@{/images/logo.png}" alt="image">
+              </a>
+            </div>
+            <div class="location">
+              <label>
+                <input type="text" placeholder="Location..">
+              </label>
+            </div>
+            <div class="search">
+              <form action="/marketplace" method="get">
+                <div class="searchFieldDiv">
+                  <label>
+                    <input
+                      type="text"
+                      name="keyword"
+                      placeholder="What are you looking for?"
+                      th:value="${keyword}">
+                  </label>
+                </div>
+                <div class="searchBtnDiv">
+                  <button id="searchBtn">
+                    <i class="fas fa-search"></i>
+                  </button>
+                </div>
+              </form>
+            </div>
+          </div>
+          <div class="right">
+            <a href="/seller/dashboard">
+              <button id="sellBtn">Sell</button>
+            </a>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <!-- BANNER -->
+
+    <div class="mainBanner">
+      <img th:src="@{/images/banner-1.jpg}" alt="image">
+    </div>
+
+    <!-- POPULAR CATEGORIES (unchanged UI) -->
+    <div class="popularCategories">
+      <div class="container">
+        <div class="heading">
+          <h2>Popular Categories</h2>
+          <hr>
+          <p>Browse through some of our most popular categories.</p>
+        </div>
+        <div class="categories">
+          <div class="oneThird">
+            <div class="top">
+              <a th:href="@{/marketplace(keyword='mobile')}">
+                <i class="fas fa-mobile-alt"></i> Mobiles
+              </a>
+            </div>
+          </div>
+          <div class="oneThird">
+            <div class="top">
+              <a th:href="@{/marketplace(keyword='vehicle')}">
+                <i class="fas fa-car"></i> Vehicles
+              </a>
+            </div>
+          </div>
+          <div class="oneThird">
+            <div class="top">
+              <a th:href="@{/marketplace(keyword='electronics')}">
+                <i class="fas fa-tv"></i> Electronics
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- MARKETPLACE LISTINGS -->
+
+    <div class="topPicks">
+      <div class="container">
+        <div class="heading">
+          <h2>Recently added</h2>
+          <hr>
+        </div>
+        <div class="picks">
+          <div
+            class="oneFourth"
+            th:each="listing : ${listings}">
+            <figure
+              th:onclick="'window.location.href=\'/listing/' + ${listing.id} + '\''">
+              <div class="productImage">
+                <img
+                  th:if="${listing.images != null and !listing.images.isEmpty()}"
+                  th:src="@{'/uploads/' + ${listing.images[0].imagePath}}" alt="image">
+                <img
+                  th:if="${listing.images == null or listing.images.isEmpty()}"
+                  th:src="@{/images/no-image.png}" alt="image">
+              </div>
+              <figcaption>
+                <div class="first">
+                  <span
+                    class="price"
+                    th:text="'Rs. ' + ${listing.price}">
+                  </span>
+                </div>
+                <div class="second">
+                  <span
+                    class="adTitle"
+                    th:text="${listing.title}">
+                  </span>
+                </div>
+                <div class="productLocation">
+                  <span
+                    th:text="'Category: ' + ${listing.category}">
+                  </span>
+                </div>
+              </figcaption>
+            </figure>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- PAGINATION -->
+
+    <div style="text-align:center; margin:30px">
+
+      <a th:if="${currentPage > 0}"
+        th:href="@{/marketplace(page=${currentPage - 1}, keyword=${keyword})}">
+        Prev
+      </a>
+      <span>
+        Page [[${currentPage+1}]] / [[${totalPages}]]
+      </span>
+      <a th:if="${currentPage+1 < totalPages}"
+        th:href="@{/marketplace(page=${currentPage+1}, keyword=${keyword})}">
+        Next
+      </a>
+    </div>
+
+    <!-- FOOTER -->
+
+    <footer>
+      <div class="bottom">
+        <div class="container">
+          <span class="copyrights">
+            © Student Marketplace 2026
+          </span>
+        </div>
+      </div>
+    </footer>
+  </div>
+  </body>
+</html>

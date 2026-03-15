@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+    <head>
+        <title th:text="${listing.title}"></title>
+        <link rel="stylesheet" th:href="@{/css/style.css}" />
+    </head>
+    <body>
+        <div class="container">
+            <h1 th:text="${listing.title}"></h1>
+
+            <div class="listing-container">
+                <div class="images">
+                    <img th:each="img : ${listing.images}"
+                         th:src="@{'/uploads/' + ${img.imagePath}}"
+                         class="listing-image" alt="listing">
+                </div>
+
+                <div class="details">
+                    <h2 th:text="'₹' + ${listing.price}"></h2>
+
+                    <p th:text="${listing.description}"></p>
+
+                    <p>
+                        <strong>Contact:</strong>
+                        <span th:text="${listing.contactInfo}"></span>
+                    </p>
+
+                    <p>
+                        <strong>Posted:</strong>
+                        <span th:text="${#temporals.format(listing.createdAt, 'dd MMM yyyy')}"></span>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </body>
+</html>

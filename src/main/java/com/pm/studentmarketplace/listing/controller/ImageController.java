@@ -15,7 +15,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 
 @Controller
-@RequestMapping("images/")
+@RequestMapping("uploads/")
 public class ImageController {
     private final Path uploadRoot = Paths.get("uploads/listings");
 
