@@ -113,36 +113,37 @@
           <div
             class="oneFourth"
             th:each="listing : ${listings}">
-            <figure
-              th:onclick="'window.location.href=\'/listing/' + ${listing.id} + '\''">
-              <div class="productImage">
-                <img
-                  th:if="${listing.images != null and !listing.images.isEmpty()}"
-                  th:src="@{'/uploads/' + ${listing.images[0].imagePath}}" alt="image">
-                <img
-                  th:if="${listing.images == null or listing.images.isEmpty()}"
-                  th:src="@{/images/no-image.png}" alt="image">
-              </div>
-              <figcaption>
-                <div class="first">
-                  <span
-                    class="price"
-                    th:text="'Rs. ' + ${listing.price}">
-                  </span>
+            <a th:href="@{'/listing/' + ${listing.id}}" style="text-decoration: none; color: inherit;">
+              <figure>
+                <div class="productImage">
+                  <img
+                    th:if="${listing.images != null and !listing.images.isEmpty()}"
+                    th:src="@{'/uploads/' + ${listing.images[0].imagePath}}" alt="image">
+                  <img
+                    th:if="${listing.images == null or listing.images.isEmpty()}"
+                    th:src="@{/images/no-image.png}" alt="image">
                 </div>
-                <div class="second">
-                  <span
-                    class="adTitle"
-                    th:text="${listing.title}">
-                  </span>
-                </div>
-                <div class="productLocation">
-                  <span
-                    th:text="'Category: ' + ${listing.category}">
-                  </span>
-                </div>
-              </figcaption>
-            </figure>
+                <figcaption>
+                  <div class="first">
+                    <span
+                      class="price"
+                      th:text="'₹' + ${listing.price}">
+                    </span>
+                  </div>
+                  <div class="second">
+                    <span
+                      class="adTitle"
+                      th:text="${listing.title}">
+                    </span>
+                  </div>
+                  <div class="productLocation">
+                    <span
+                      th:text="'Category: ' + ${listing.category}">
+                    </span>
+                  </div>
+                </figcaption>
+              </figure>
+            </a>
           </div>
         </div>
       </div>

@@ -27,7 +27,8 @@ public class SecurityConfig {
                                 "/js/**",
                                 "/images/**",
                                 "/uploads/**",
-                                "/marketplace"
+                                "/marketplace",
+                                "listing/**"
                         ).permitAll()
                         .requestMatchers("/seller/**").hasRole("SELLER")
                         .requestMatchers("/admin/**").hasRole("ADMIN")

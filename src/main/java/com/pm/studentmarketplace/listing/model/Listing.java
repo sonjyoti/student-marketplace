@@ -31,7 +31,8 @@ public class Listing {
     @OneToMany(
             mappedBy = "listing",
             cascade = CascadeType.ALL,
-            orphanRemoval = true
+            orphanRemoval = true,
+            fetch = FetchType.EAGER
     )
     private List<ListingImage> images = new ArrayList<>();
 

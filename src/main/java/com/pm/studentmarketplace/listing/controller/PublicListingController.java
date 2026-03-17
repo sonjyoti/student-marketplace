@@ -5,6 +5,7 @@ import com.pm.studentmarketplace.listing.service.ListingService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 
 @Controller
 public class PublicListingController {
@@ -17,7 +18,7 @@ public class PublicListingController {
 
     @GetMapping("/listing/{id}")
     public String viewListing(
-            Long id,
+            @PathVariable Long id,
             Model model
     ){
         Listing listing = listingService.getListingById(id);

@@ -24,9 +24,16 @@
                         <strong>Contact:</strong>
                         <span th:text="${listing.contactInfo}"></span>
                     </p>
-
+                    <p>
+                        <b>Seller:</b>
+                        <span th:text="${listing.seller.name}"></span>
+                    </p>
                     <p>
                         <strong>Posted:</strong>
+                        <span th:text="${#temporals.format(listing.createdAt, 'dd MMM yyyy')}"></span>
+                    </p>
+                    <p>
+                        <b>Posted on:</b>
                         <span th:text="${#temporals.format(listing.createdAt, 'dd MMM yyyy')}"></span>
                     </p>
                 </div>
